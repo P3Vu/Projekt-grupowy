@@ -1,1 +1,15 @@
-Kilka słów o nas
+Repozytorium powstało na potrzeby projektu grupowego ( Edycja 2020/2021 ) prowadzonego jako jedne z wymagań na II stopniu studiów 
+kierunku Elektronika i Telekomunikacja.
+
+Tematem projektu opisanego w repozytorium jest Rozproszony System Inteligentnego Oświetlenia Ulicznego, którego celem jest
+stworzenie systemu składającego się z lamp ulicznych dokonujących odpowiednich pomiarów oraz komunikujących się bezprzewodowo
+( np. z wykorzystaniem interfejsu LoRaWAN ) z serwerem z którego możnaby sterować systemem.
+
+Członkami zespołu są studenci katedry Metrologii i Optoelektroniki z specjalizacją uzupełniająca Systemy Wbudowane :
+
+1. inż. Paweł Wojciechowski ( Lider Zespołu )
+2. inż. Luiza Błaszczak
+3. inż. Anita Kaszuba
+
+
+
