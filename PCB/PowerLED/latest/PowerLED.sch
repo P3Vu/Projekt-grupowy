@@ -97,6 +97,29 @@
 <text x="140.716" y="4.953" size="2.54" layer="94">Sheet:</text>
 <frame x1="0" y1="0" x2="184.15" y2="133.35" columns="4" rows="4" layer="94"/>
 </symbol>
+<symbol name="A4L-LOC" urn="urn:adsk.eagle:symbol:13874/1" library_version="1">
+<wire x1="256.54" y1="3.81" x2="256.54" y2="8.89" width="0.1016" layer="94"/>
+<wire x1="256.54" y1="8.89" x2="256.54" y2="13.97" width="0.1016" layer="94"/>
+<wire x1="256.54" y1="13.97" x2="256.54" y2="19.05" width="0.1016" layer="94"/>
+<wire x1="256.54" y1="19.05" x2="256.54" y2="24.13" width="0.1016" layer="94"/>
+<wire x1="161.29" y1="3.81" x2="161.29" y2="24.13" width="0.1016" layer="94"/>
+<wire x1="161.29" y1="24.13" x2="215.265" y2="24.13" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="24.13" x2="256.54" y2="24.13" width="0.1016" layer="94"/>
+<wire x1="246.38" y1="3.81" x2="246.38" y2="8.89" width="0.1016" layer="94"/>
+<wire x1="246.38" y1="8.89" x2="256.54" y2="8.89" width="0.1016" layer="94"/>
+<wire x1="246.38" y1="8.89" x2="215.265" y2="8.89" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="8.89" x2="215.265" y2="3.81" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="8.89" x2="215.265" y2="13.97" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="13.97" x2="256.54" y2="13.97" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="13.97" x2="215.265" y2="19.05" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="19.05" x2="256.54" y2="19.05" width="0.1016" layer="94"/>
+<wire x1="215.265" y1="19.05" x2="215.265" y2="24.13" width="0.1016" layer="94"/>
+<text x="217.17" y="15.24" size="2.54" layer="94">&gt;DRAWING_NAME</text>
+<text x="217.17" y="10.16" size="2.286" layer="94">&gt;LAST_DATE_TIME</text>
+<text x="230.505" y="5.08" size="2.54" layer="94">&gt;SHEET</text>
+<text x="216.916" y="4.953" size="2.54" layer="94">Sheet:</text>
+<frame x1="0" y1="0" x2="260.35" y2="179.07" columns="6" rows="4" layer="94"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="DINA5_L" urn="urn:adsk.eagle:component:13932/1" prefix="FRAME" uservalue="yes" library_version="1">
@@ -104,6 +127,20 @@
 DIN A5, landscape with doc field</description>
 <gates>
 <gate name="G$1" symbol="A5L-LOC" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="A4L-LOC" urn="urn:adsk.eagle:component:13926/1" prefix="FRAME" uservalue="yes" library_version="1">
+<description>&lt;b&gt;FRAME&lt;/b&gt;&lt;p&gt;
+DIN A4, landscape with location and doc. field</description>
+<gates>
+<gate name="G$1" symbol="A4L-LOC" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -126,14 +163,15 @@ DIN A5, landscape with doc field</description>
 </classes>
 <parts>
 <part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="DINA5_L" device=""/>
+<part name="FRAME2" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="A4L-LOC" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
-<text x="78.74" y="0" size="1.778" layer="91">Lighting station board with power source, 
+<text x="78.74" y="2.032" size="1.778" layer="91">Lighting station board with power source, 
 LED's and output terminals to source the
 communication board</text>
-<text x="130.81" y="7.62" size="1.778" layer="91">Author: Paweł Wojciechowski</text>
+<text x="78.74" y="-1.778" size="1.778" layer="91">Author: Paweł Wojciechowski</text>
 <text x="78.74" y="-5.08" size="1.778" layer="91">rev.0</text>
 <text x="15.494" y="58.166" size="1.778" layer="91">TRANSFORMATOR
      230V ~ 15V</text>
@@ -157,6 +195,7 @@ communication board</text>
 <text x="127.254" y="70.104" size="1.778" layer="91">DRIVER LED</text>
 <text x="101.092" y="72.39" size="1.778" layer="91">STABILIZATOR</text>
 <text x="107.188" y="69.088" size="1.778" layer="91">12V</text>
+<text x="130.556" y="7.62" size="2.54" layer="91">BLOCK DIAGRAM</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="-10.16" y="-12.7" smashed="yes">
@@ -298,6 +337,27 @@ communication board</text>
 <segment>
 </segment>
 </net>
+</nets>
+</sheet>
+<sheet>
+<plain>
+<text x="217.17" y="20.32" size="2.54" layer="91">MAIN</text>
+<text x="164.084" y="14.224" size="1.778" layer="91">Lighting station board with power source, 
+LED's and output terminals to source the
+communication board</text>
+<text x="164.084" y="10.414" size="1.778" layer="91">Author: Paweł Wojciechowski</text>
+<text x="164.084" y="7.112" size="1.778" layer="91">rev.0</text>
+</plain>
+<instances>
+<instance part="FRAME2" gate="G$1" x="0" y="0" smashed="yes">
+<attribute name="DRAWING_NAME" x="217.17" y="15.24" size="2.54" layer="94"/>
+<attribute name="LAST_DATE_TIME" x="217.17" y="10.16" size="2.286" layer="94"/>
+<attribute name="SHEET" x="230.505" y="5.08" size="2.54" layer="94"/>
+</instance>
+</instances>
+<busses>
+</busses>
+<nets>
 </nets>
 </sheet>
 </sheets>

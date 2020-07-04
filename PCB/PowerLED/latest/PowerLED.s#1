@@ -137,7 +137,7 @@ communication board</text>
 <text x="78.74" y="-5.08" size="1.778" layer="91">rev.0</text>
 <text x="15.494" y="58.166" size="1.778" layer="91">TRANSFORMATOR
      230V ~ 15V</text>
-<text x="52.832" y="59.69" size="1.778" layer="91">MOSTEK GREATZA</text>
+<text x="52.832" y="59.69" size="1.778" layer="91">MOSTEK GRAETZA</text>
 <text x="101.092" y="57.15" size="1.778" layer="91">STABILIZATOR</text>
 <text x="107.188" y="53.848" size="1.778" layer="91">12V</text>
 <text x="127.254" y="54.864" size="1.778" layer="91">DRIVER LED</text>

@@ -133,6 +133,8 @@ DIN A5, landscape with doc field</description>
 <text x="78.74" y="0" size="1.778" layer="91">Lighting station board with power source, 
 LED's and output terminals to source the
 communication board</text>
+<text x="130.81" y="7.62" size="1.778" layer="91">Author: Paweł Wojciechowski</text>
+<text x="78.74" y="-5.08" size="1.778" layer="91">rev.0</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="-10.16" y="-12.7" smashed="yes">
