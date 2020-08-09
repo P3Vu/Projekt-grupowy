@@ -53,7 +53,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+uint8_t Received[2];
+volatile uint8_t licznik = 0;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -75,7 +76,20 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
+ uint8_t Data[2]; // Tablica przechowujaca wysylana wiadomosc.
+
+ sprintf(Data, "%s", Received);
+ HAL_UART_Transmit_IT(&huart2, Data, 2); // Rozpoczecie nadawania danych z wykorzystaniem przerwan
+ HAL_UART_Receive_IT(&huart1, Received, 2); // Ponowne w³¹czenie nas³uchiwania
+
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	//GPIO_PIN_3
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_4);
+	licznik = 1;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -114,12 +128,13 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t licznik = 0;
+
   uint8_t configuration[] = "AT+SETPANID ABCD";
-  uint8_t wiadomosc[11] = "P2P 55F3";
+  uint8_t wiadomosc[11] = "P2P 228F";
   uint8_t send[11];
+  HAL_UART_Receive_IT(&huart1, Received, 2);
   HAL_UART_Transmit(&huart2, configuration, sizeof(configuration), 100);
-  HAL_UART_Transmit(&huart2, configuration, sizeof(configuration), 100);
+  HAL_UART_Transmit(&huart1, configuration, sizeof(configuration), 100);
 
   /* USER CODE END 2 */
 
@@ -130,20 +145,35 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  licznik++;
-	  if(licznik % 2 == 0)
-	  {
-		  sprintf(send, "%s 1", wiadomosc);
-		  HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
-		  HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
-	  }
-	  else
-	  {
-		  sprintf(send, "%s 2", wiadomosc);
-		  HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
-		  HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
-	  }
-	  HAL_Delay(1000);
+	  /*
+	if(Received[0] == 49)
+	{
+	  	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	  	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);
+	}
+	else
+	{
+	  	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	}
+
+	if(licznik == 1)
+	{
+		sprintf(send, "%s 1", wiadomosc);
+		HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
+		HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
+		licznik = 0;
+	}
+	else if(licznik == 2)
+	{
+		sprintf(send, "%s 2", wiadomosc);
+		HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
+		HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
+		licznik = 0;
+	}*/
+	//sprintf(send, "%s 2", wiadomosc);
+	//HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
+	//HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
+	//HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
