@@ -1,0 +1,1 @@
+Projekt przeznaczony na Nucleo F446RE. Umożliwia dwukierunkową komunikację za pomocą modułów CC2530.

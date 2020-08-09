@@ -1,0 +1,1 @@
+Projekt przeznaczony na Nucleo L073RZ. Umożliwia dwukierunkową komunikację za pomocą modułów CC2530 z Nucleo F446RE. Przesyłane paczki danych zawierają informacje o wykryciu ruchu w otoczeniu modułu. 
