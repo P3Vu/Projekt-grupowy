@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2020-07-31T18:40:12Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.5.1"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "driver"
+        },
+        "Owner": "Pawe Wojciechowski <s165264@student.pg.edu.pl>",
+        "Size": {
+            "X": 46.27,
+            "Y": 70
+        }
+    }
+}
