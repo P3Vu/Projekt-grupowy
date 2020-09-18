@@ -53,7 +53,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-uint8_t Received[2];
+uint8_t Received[5];
 volatile uint8_t licznik = 0;
 /* USER CODE END PD */
 
@@ -63,8 +63,11 @@ volatile uint8_t licznik = 0;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart4;
+UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 
@@ -75,20 +78,33 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART1_UART_Init(void);
-
+static void MX_USART3_UART_Init(void);
+static void MX_UART4_Init(void);
+static void MX_UART5_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
- uint8_t Data[2]; // Tablica przechowujaca wysylana wiadomosc.
+ uint8_t Data[40]; // Tablica przechowujaca wysylana wiadomosc.
+ uint16_t size = 0;
 
- sprintf(Data, "%s", Received);
- HAL_UART_Transmit_IT(&huart2, Data, 2); // Rozpoczecie nadawania danych z wykorzystaniem przerwan
- HAL_UART_Receive_IT(&huart1, Received, 2); // Ponowne w³¹czenie nas³uchiwania
+ size = sprintf(Data, "%s", Received);
+
+ HAL_UART_Transmit_IT(&huart2, Data, size); // Rozpoczecie nadawania danych z wykorzystaniem przerwan
+ HAL_UART_Receive_IT(&huart5, Received, 4); // Ponowne w³¹czenie nas³uchiwania
+
+ if(strcmp(Data, "info") == 0)
+ 		{
+
+ 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);
+ 		}
+ else
+ 		 {
+ 			 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
+ 		 }
 
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	//GPIO_PIN_3
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_4);
 	licznik = 1;
 }
@@ -129,14 +145,17 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
+  MX_USART3_UART_Init();
+  MX_UART4_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
 
   uint8_t configuration[] = "AT+SETPANID ABCD";
-  uint8_t wiadomosc[11] = "P2P 55F3";
-  uint8_t send[11];
-  HAL_UART_Receive_IT(&huart1, Received, 2);
-  HAL_UART_Transmit(&huart2, configuration, sizeof(configuration), 100);
-  HAL_UART_Transmit(&huart1, configuration, sizeof(configuration), 100);
+  uint8_t wiadomosc[13] = "P2P 228F info";
+  uint8_t nod[13] = "P2P 228F napi";
+
+  HAL_UART_Receive_IT(&huart5, Received, 4);
+  HAL_UART_Transmit(&huart5, configuration, sizeof(configuration), 100);
 
   /* USER CODE END 2 */
 
@@ -147,35 +166,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  /*
-	if(Received[0] == 49)
-	{
-	  	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	  	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);
-	}
-	else
-	{
-	  	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	}
+	  HAL_UART_Transmit(&huart5, wiadomosc, sizeof(wiadomosc), 100);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	  HAL_UART_Transmit(&huart5, nod, sizeof(nod), 100);
+	  HAL_Delay(1000);
+	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 
-	if(licznik == 1)
-	{
-		sprintf(send, "%s 1", wiadomosc);
-		HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
-		HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
-		licznik = 0;
-	}
-	else if(licznik == 2)
-	{
-		sprintf(send, "%s 2", wiadomosc);
-		HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
-		HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
-		licznik = 0;
-	}*/
-	sprintf(send, "%s 2", wiadomosc);
-	HAL_UART_Transmit(&huart1, send, sizeof(send), 100);
-	HAL_UART_Transmit(&huart2, send, sizeof(send), 100);
-	HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
@@ -200,9 +197,9 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -214,14 +211,80 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 38400;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
+
+}
+
+/**
+  * @brief UART5 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART5_Init(void)
+{
+
+  /* USER CODE BEGIN UART5_Init 0 */
+
+  /* USER CODE END UART5_Init 0 */
+
+  /* USER CODE BEGIN UART5_Init 1 */
+
+  /* USER CODE END UART5_Init 1 */
+  huart5.Instance = UART5;
+  huart5.Init.BaudRate = 38400;
+  huart5.Init.WordLength = UART_WORDLENGTH_8B;
+  huart5.Init.StopBits = UART_STOPBITS_1;
+  huart5.Init.Parity = UART_PARITY_NONE;
+  huart5.Init.Mode = UART_MODE_TX_RX;
+  huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart5.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART5_Init 2 */
+
+  /* USER CODE END UART5_Init 2 */
+
 }
 
 /**
@@ -291,6 +354,39 @@ static void MX_USART2_UART_Init(void)
 }
 
 /**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 38400;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -304,6 +400,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);

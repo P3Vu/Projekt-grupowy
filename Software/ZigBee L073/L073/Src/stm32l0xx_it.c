@@ -71,8 +71,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart5;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -170,31 +169,17 @@ void EXTI2_3_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
+  * @brief This function handles USART4 and USART5 interrupt.
   */
-void USART1_IRQHandler(void)
+void USART4_5_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART1_IRQn 0 */
+  /* USER CODE BEGIN USART4_5_IRQn 0 */
 
-  /* USER CODE END USART1_IRQn 0 */
-  HAL_UART_IRQHandler(&huart1);
-  /* USER CODE BEGIN USART1_IRQn 1 */
+  /* USER CODE END USART4_5_IRQn 0 */
+  HAL_UART_IRQHandler(&huart5);
+  /* USER CODE BEGIN USART4_5_IRQn 1 */
 
-  /* USER CODE END USART1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
-  */
-void USART2_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART2_IRQn 0 */
-
-  /* USER CODE END USART2_IRQn 0 */
-  HAL_UART_IRQHandler(&huart2);
-  /* USER CODE BEGIN USART2_IRQn 1 */
-
-  /* USER CODE END USART2_IRQn 1 */
+  /* USER CODE END USART4_5_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
